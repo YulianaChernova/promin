@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Промінь</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Промінь">
+<meta name="theme-color" content="#10151f">
+<style>
+:root{--bg:#10151f;--panel:#1a2233;--ink:#eef2fb;--mute:#9fb0d0;--line:#2c3a57;--acc:#ffd166;--accink:#1a2233;--ok:#5fd6a0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f6fb;--panel:#fff;--ink:#17203a;--mute:#52618a;--line:#d3dbee;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f4f6fb;--panel:#fff;--ink:#17203a;--mute:#52618a;--line:#d3dbee;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:560px;margin:0 auto;padding:14px}
+.top{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:24px;margin:6px 0}
+h2{font-size:21px;margin:14px 0 8px}
+.sub{color:var(--mute);font-size:16px;margin:0 0 12px}
+nav{display:flex;gap:5px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+button{font:inherit;color:var(--ink);cursor:pointer}
+nav button{flex:0 0 auto;padding:12px 14px;border:2px solid var(--line);background:var(--panel);border-radius:12px;font-size:14px;font-weight:600}
+nav button[aria-pressed="true"]{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.btn{width:100%;padding:14px;border-radius:12px;border:2px solid var(--acc);background:var(--acc);color:var(--accink);font-weight:700;margin-top:10px}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.hide{display:none}
+#ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:300px;margin:10px auto}
+#ttt button,#mem button{aspect-ratio:1;font-size:40px;font-weight:700;border-radius:12px;border:2px solid var(--line);background:var(--bg)}
+#mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px auto;max-width:340px}
+#mem button.open{background:var(--panel);border-color:var(--acc)}
+#mem button.done{border-color:var(--ok);opacity:.6}
+.msg{text-align:center;color:var(--mute);min-height:28px}
+.ans{color:var(--acc);font-weight:700;margin-top:8px}
+.story p{margin:0 0 12px}
+.sel{display:flex;gap:6px;margin-bottom:10px}
+.sel button{flex:1;padding:10px;border:2px solid var(--line);background:var(--bg);border-radius:10px;font-size:16px}
+.sel button[aria-pressed="true"]{border-color:var(--acc)}
+#orb{width:150px;height:150px;border-radius:50%;margin:18px auto;background:var(--acc);opacity:.85;transform:scale(.55);transition:transform 4s ease-in-out}
+#orb.in{transform:scale(1)}
+#orb.out{transform:scale(.55);transition-duration:6s}
+#bt{text-align:center;font-size:24px;font-weight:700;min-height:36px}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){#orb{transition:none}}
+#aWord{text-align:center;font-size:32px;font-weight:700;padding:38px 12px;word-break:break-word}
+#aTime{text-align:center;font-size:34px;font-weight:700;color:var(--acc)}
+.sel #aOk{background:var(--acc);color:var(--accink);font-weight:700;border-color:var(--acc)}
+.sel #aSk,.sel #aOk{padding:18px 10px;font-size:18px}
+.g{display:grid;gap:6px;max-width:260px;margin:10px auto}.g button{aspect-ratio:1;font-size:26px;font-weight:700;border:2px solid var(--line);background:var(--bg);border-radius:8px}.g button.fx{font-weight:900;border-color:var(--mute);color:var(--ink)}.g button{color:var(--acc)}.g button.b2{background:var(--panel)}.g button.sel1{outline:3px solid var(--acc)}canvas{width:100%;aspect-ratio:1;background:#fff;border:2px solid var(--line);border-radius:12px;touch-action:none;display:block}.cs{display:flex;gap:8px;margin:8px 0}#ttt{position:relative}#ttt button.win{background:var(--acc);color:var(--accink);border-color:var(--acc)}.sl{position:absolute;height:7px;border-radius:4px;background:#e03131;transform-origin:0 50%;pointer-events:none;animation:sl .45s ease-out}@keyframes sl{from{width:0}}.wm{font-size:28px;font-weight:800;color:var(--acc);animation:pop .5s ease-out}@keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.2)}100%{transform:scale(1)}}.fw{position:fixed;inset:0;pointer-events:none;z-index:9}.fw i{position:absolute;width:9px;height:9px;border-radius:50%;animation:fw 1.3s ease-out both}@keyframes fw{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}.op{display:block;width:100%;text-align:left;margin-bottom:8px;padding:14px;border:2px solid var(--line);background:var(--panel);border-radius:10px;font:inherit}.op.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 20%,var(--panel))}.op.no{border-color:#e03131;background:color-mix(in srgb,#e03131 18%,var(--panel))}.cs button{width:40px;height:40px;border-radius:50%;border:3px solid var(--line)}input,textarea{width:100%;font:inherit;padding:10px;margin-bottom:8px;border:2px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.hd{position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:6px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.hide{display:none!important}
+.tile{aspect-ratio:1;border:2px solid var(--line);border-radius:18px;background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px;padding:8px}
+.tile b{font-size:44px;line-height:1}
+.sel button.ok{background:#1f8a5b;color:#fff;border-color:#1f8a5b}
+.sel button.no{background:#c23b3b;color:#fff;border-color:#c23b3b}
+input[type=checkbox]{width:30px;height:30px;padding:0;margin:0;accent-color:var(--acc)}
+.exr{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0}
+.exr span:first-child{flex:1}
+.cb{display:flex;gap:6px;flex-shrink:0}
+.exr.dn span:first-child{text-decoration:line-through;color:var(--mute)}
+#uk{flex-wrap:wrap}#uk button{flex:1 0 15%;padding:12px 0;font-size:20px}
+.g.n9 button{font-size:19px;border-radius:5px}
+</style>
+</head>
+<body>
+<main>
+<div class="hd"><div class="top"><h1><img src="icon-192.png" width="38" height="38" alt="" style="border-radius:10px;vertical-align:middle;margin-right:10px">Промінь</h1><button id="th" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Змінити тему">◐</button></div>
+<p class="sub">Працює без інтернету після встановлення на головний екран.</p>
+<nav>
+<button data-t="games" aria-pressed="true">Ігри</button>
+<button data-t="riddles" aria-pressed="false">Загадки</button>
+<button data-t="calm" aria-pressed="false">Спокій</button>
+<button data-t="quest" aria-pressed="false">Квест</button>
+<button data-t="tf" aria-pressed="false">Правда?</button>
+<button data-t="md" aria-pressed="false">Настрій</button>
+<button data-t="story" aria-pressed="false">Історія разом</button>
+</nav></div>
+
+<section id="games">
+<div id="hub" class="tiles"></div><div id="gbar" class="hide"><button class="btn alt" id="gback" style="margin:0 0 12px">← До списку ігор</button></div>
+<div id="tttBox" class="hide">
+<div class="msg" id="tm"></div>
+<div id="ttt"></div>
+<button class="btn alt" id="tr">Нова гра</button>
+</div>
+<div id="memBox" class="hide">
+<div class="msg" id="mm"></div>
+<div id="mem"></div>
+<button class="btn alt" id="mr">Нова гра</button>
+</div>
+</section>
+
+<section id="riddles" class="hide"><div class="box" id="rq"></div><input id="ri" placeholder="Твоя відповідь" autocomplete="off"><div class="msg" id="rm"></div><button class="btn" id="rc">Перевірити</button><div class="sel" style="margin-top:10px"><button id="rs">Показати відповідь</button><button id="rn">Інша загадка</button></div></section>
+
+
+
+<section id="alias" class="hide">
+<div id="aSet">
+<div class="sel"><button data-l="e" aria-pressed="true">7–10 років</button><button data-l="h" aria-pressed="false">11–15 років</button></div>
+<div class="sel"><button data-s="30" aria-pressed="false">30 с</button><button data-s="60" aria-pressed="true">60 с</button><button data-s="90" aria-pressed="false">90 с</button></div>
+<div class="box"><b id="aWho"></b><p class="sub" id="aScore"></p><p class="sub">Поясни слово словами, жестами чи малюнком, але не називай його і слова з тим самим коренем. Команда вгадує.</p></div>
+<button class="btn" id="aGo">Почати хід</button>
+<button class="btn alt" id="aRes">Скинути рахунок</button>
+</div>
+<div id="aPlay" class="hide">
+<div id="aTime"></div>
+<div class="box" id="aWord"></div>
+<div class="sel"><button id="aSk">Пропустити</button><button id="aOk">Вгадали ✓</button></div>
+<div class="msg" id="aN"></div>
+</div>
+</section>
+
+<section id="calm" class="hide">
+<div class="box"><b>Дихання</b>
+<div id="bt">Натисни «Почати»</div><div id="orb"></div>
+<button class="btn" id="bs">Почати</button>
+<label style="display:flex;align-items:center;gap:10px;margin-top:12px"><input type="checkbox" id="sndk" checked> Звук вдиху й видиху</label></div>
+<div class="box"><b>Вправи</b><p class="sub">Роби вправи по черзі й став галочку, коли виконав(ла).</p><div id="ex"></div><button class="btn alt" id="exr">Скинути галочки</button></div>
+</section>
+</main>
+
+<script>
+function $(i){return document.getElementById(i)}
+function sv(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function ld(k){try{return localStorage.getItem(k)}catch(e){return null}}
+
+/* theme */
+var t0=ld("kitTheme");if(t0)document.documentElement.setAttribute("data-theme",t0);
+$("th").onclick=function(){var cur=document.documentElement.getAttribute("data-theme");
+var dark=cur?cur==="dark":!window.matchMedia("(prefers-color-scheme:light)").matches;
+var n=dark?"light":"dark";document.documentElement.setAttribute("data-theme",n);sv("kitTheme",n)};
+
+/* tabs */
+var tabs=["games","riddles","calm","quest","tf","md","story"];
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+tabs.forEach(function(t){$(t).classList.toggle("hide",t!==b.dataset.t)});
+document.querySelectorAll("nav button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+stopB();aPause();gHome()}});
+
+/* tic-tac-toe */
+var bd,turn,over;
+var L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function tNew(){bd=Array(9).fill("");turn="X";over=false;$("tm").className="msg";var g=$("ttt");g.innerHTML="";
+for(var i=0;i<9;i++){(function(i){var b=document.createElement("button");b.setAttribute("aria-label","Клітинка "+(i+1));
+b.onclick=function(){if(over||bd[i])return;bd[i]=turn;b.textContent=turn;
+var w=L.filter(function(l){return bd[l[0]]&&bd[l[0]]===bd[l[1]]&&bd[l[1]]===bd[l[2]]})[0];
+if(w){over=true;$("tm").textContent="🎉 Виграв "+turn+"! 🎉";$("tm").className="msg wm";win(w);return}
+if(bd.every(Boolean)){over=true;$("tm").textContent="Нічия";return}
+turn=turn==="X"?"O":"X";$("tm").textContent="Ходить "+turn};g.appendChild(b)})(i)}
+$("tm").textContent="Ходить X"}
+$("tr").onclick=tNew;tNew();
+function win(w){var g=$('ttt'),a=g.children[w[0]],c=g.children[w[2]];w.forEach(function(i){g.children[i].classList.add('win')});var x1=a.offsetLeft+a.offsetWidth/2,y1=a.offsetTop+a.offsetHeight/2,dx=c.offsetLeft+c.offsetWidth/2-x1,dy=c.offsetTop+c.offsetHeight/2-y1,len=Math.sqrt(dx*dx+dy*dy),e=a.offsetWidth*.35,l=document.createElement('div');l.className='sl';l.style.left=(x1-dx/len*e)+'px';l.style.top=(y1-dy/len*e-3)+'px';l.style.width=(len+2*e)+'px';l.style.transform='rotate('+Math.atan2(dy,dx)+'rad)';g.appendChild(l);boom();try{if(navigator.vibrate)navigator.vibrate([80,40,80])}catch(x){}}
+function boom(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;var f=document.createElement('div');f.className='fw';var C=['#ffd166','#ef476f','#06d6a0','#118ab2','#ff9f1c','#c77dff'];for(var k=0;k<3;k++){var bx=innerWidth*(.2+Math.random()*.6),by=innerHeight*(.15+Math.random()*.4),cl=C[Math.floor(Math.random()*C.length)];for(var j=0;j<28;j++){var p=document.createElement('i'),an=j/28*6.2832,d=70+Math.random()*70;p.style.left=bx+'px';p.style.top=by+'px';p.style.background=k%2?cl:C[j%C.length];p.style.setProperty('--dx',Math.cos(an)*d+'px');p.style.setProperty('--dy',Math.sin(an)*d+'px');p.style.animationDelay=(k*.25)+'s';f.appendChild(p)}}document.body.appendChild(f);setTimeout(function(){f.remove()},2200)}
+
+/* memory */
+var E=["🌻","🐱","🚀","🍎","🎈","🐟"],mo=[],mf=[],lock=false;
+function mNew(){var a=E.concat(E);for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x}
+mo=a;mf=[];lock=false;var g=$("mem");g.innerHTML="";var moves=0,found=0;$("mm").textContent="Знайди пари";
+a.forEach(function(e,i){var b=document.createElement("button");b.textContent="?";b.setAttribute("aria-label","Картка "+(i+1));
+b.onclick=function(){if(lock||b.classList.contains("open")||b.classList.contains("done"))return;
+b.classList.add("open");b.textContent=e;mf.push(b);
+if(mf.length===2){moves++;lock=true;var p=mf[0],q=mf[1];
+if(p.textContent===q.textContent){p.className=q.className="done";found++;mf=[];lock=false;
+if(found===6)boom(),$("mm").textContent="Усі пари знайдено за "+moves+" ходів!"}
+else setTimeout(function(){p.className=q.className="";p.textContent=q.textContent="?";mf=[];lock=false},800)}};
+g.appendChild(b)})}
+$("mr").onclick=mNew;mNew();
+
+/* breathing */
+var bt=null,bc=0,cur=[],cm=null,AC=null;
+function bp(up){if(!$('sndk').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();var t=AC.currentTime,d=up?4:6,m=AC.createGain(),f=AC.createBiquadFilter(),pk=.035;f.type='lowpass';f.frequency.value=700;m.gain.setValueAtTime(up?.0001:pk,t);if(up){m.gain.linearRampToValueAtTime(.012,t+d*.5);m.gain.linearRampToValueAtTime(pk,t+d)}else{m.gain.linearRampToValueAtTime(.012,t+d*.45);m.gain.linearRampToValueAtTime(.0001,t+d)}m.connect(f);f.connect(AC.destination);[196,294,392].forEach(function(fr){var o=AC.createOscillator();o.type='sine';o.frequency.setValueAtTime(up?fr:fr*1.04,t);o.frequency.linearRampToValueAtTime(up?fr*1.04:fr,t+d);o.connect(m);o.start(t);o.stop(t+d+.1);cur.push(o)});cm=m}catch(e){}}
+function stopB(){if(bt){clearInterval(bt);bt=null}if(cm){try{var t=AC.currentTime;cm.gain.cancelScheduledValues(t);cm.gain.setValueAtTime(cm.gain.value,t);cm.gain.linearRampToValueAtTime(.0001,t+.2)}catch(e){}cm=null}cur=[];$('orb').className='';$('bt').textContent='Натисни «Почати»';$('bs').textContent='Почати'}
+function tick(){var p=bc%10;if(p===0){$('orb').className='in';bp(1)}if(p===4){$('orb').className='out';bp(0)}$('bt').textContent=p<4?'Вдих… '+(4-p):'Видих… '+(10-p);bc++}
+$('bs').onclick=function(){if(bt){stopB();return}bc=0;$('bs').textContent='Зупинити';tick();bt=setInterval(tick,1000)};
+/* alias */
+var AW={e:["кіт","яблуко","літак","дощ","морозиво","футбол","бабуся","парасолька","ліхтарик","річка","зірка","велосипед","торт","дракон","ведмідь","годинник","сніговик","піца","м’яч","цирк","пінгвін","капелюх","корабель","лікар","гора","школа","сніданок","мультфільм"],h:["гравітація","вулкан","телескоп","експедиція","піраміда","лабіринт","мікроскоп","компас","винахідник","сузір’я","бібліотека","фотосинтез","симфонія","мандрівник","екосистема","обсерваторія","архітектор","енергія","таємниця","відлуння","інтернет","кордон","дружба","вулиця","кінорежисер","океан"]};
+AW.e=AW.e.concat(['сонце','місяць','хмара','сніг','вітер','квітка','дерево','гриб','жаба','заєць','вовк','лисиця','білка','корова','кінь','курка','равлик','метелик','бджола','павук','акула','дельфін','кит','слон','жираф','мавпа','лев','тигр','автобус','потяг','трамвай','човен','ракета','міст','дзвоник','книжка','олівець','рюкзак','зошит','пенал','ліжко','телевізор','холодильник','чайник','ложка','тарілка','кавун','банан','морква','борщ','вареники','цукерка','пончик','шоколад','подушка','футболка','чобіт','шапка','веселка','вулик']);AW.h=AW.h.concat(['клімат','атмосфера','світогляд','винахід','експеримент','планета','галактика','метеорит','затемнення','пустеля','водоспад','півострів','архіпелаг','материк','акваріум','парашут','підводний човен','супутник','космонавт','інженер','програміст','дизайнер','режисер','журналіст','археолог','детектив','скарб','острів','маяк','замок','лицар','фортеця','гетьман','козак','вишиванка','музей','виставка','концерт','оркестр','диригент','гітара','піаніно','скрипка','фестиваль','кросворд','шахи','олімпіада','стадіон','марафон','чемпіон','скейтборд','відеогра','смартфон','пароль','алгоритм','акумулятор','вітряк','переробка','волонтер','друг']);var aL="e",aD=60,aTm=null,aT=0,aDk=[],aS=[0,0],aTeam=0,aC=0,aLast="";
+function aSh(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x}return a}
+function aInfo(){$("aWho").textContent="Хід: команда "+(aTeam+1);$("aScore").textContent="Рахунок: "+aS[0]+" : "+aS[1]+(aLast?". "+aLast:"")}
+function aNext(){if(!aDk.length)aDk=aSh(AW[aL].slice());$("aWord").textContent=aDk.pop()}
+document.querySelectorAll("#aSet .sel button").forEach(function(b){b.onclick=function(){
+var k=b.dataset.l?"l":"s";if(k==="l"){aL=b.dataset.l;aDk=[]}else aD=+b.dataset.s;
+document.querySelectorAll("#aSet .sel button").forEach(function(x){if(x.dataset[k]!==undefined)x.setAttribute("aria-pressed",x===b)})}});
+function aPause(){if(aTm){clearInterval(aTm);aTm=null;$("aPlay").classList.add("hide");$("aSet").classList.remove("hide")}}
+function aFin(){clearInterval(aTm);aTm=null;aS[aTeam]+=aC;aLast="Команда "+(aTeam+1)+" вгадала слів: "+aC;aTeam=1-aTeam;
+$("aPlay").classList.add("hide");$("aSet").classList.remove("hide");aInfo();try{if(navigator.vibrate)navigator.vibrate(300)}catch(e){}}
+$("aGo").onclick=function(){if(aDk.length<8)aDk=aSh(AW[aL].slice());aC=0;aT=aD;
+$("aSet").classList.add("hide");$("aPlay").classList.remove("hide");
+$("aTime").textContent=aT;$("aN").textContent="Вгадано: 0";aNext();
+aTm=setInterval(function(){aT--;$("aTime").textContent=aT;if(aT<=0)aFin()},1000)};
+$("aOk").onclick=function(){aC++;$("aN").textContent="Вгадано: "+aC;aNext()};
+$("aSk").onclick=aNext;
+$("aRes").onclick=function(){aS=[0,0];aTeam=0;aLast="";aInfo()};function addTab(id,lb,h){var s=document.createElement('section');s.id=id;s.className='hide';s.innerHTML=h;document.querySelector('main').appendChild(s)}
+var QS=[['Ти знайшов у шкільній бібліотеці старий компас. Його стрілка вказує на двері, яких раніше не було.',[['Відчинити двері',1],['Показати компас учителеві',2]]],['За дверима сходи вниз і тихе світло. Унизу щось шарудить.',[['Спуститися',3],['Покликати друга',4]]],['Учителька усміхається: «Це компас першовідкривачів. Він працює для тих, хто не йде сам». Вона дає тобі ключ.',[['Піти до дверей із ключем',1],['Роздивитися ключ',5]]],['Унизу майстерня й робот-сторож, який питає пароль. На компасі видряпано слово ДРУЖБА.',[['Сказати «дружба»',6],['Сказати «пароль»',7]]],['Удвох не страшно. На стіні підказка: «Скажи те, що тримає разом».',[['Спуститися далі',3]]],['На ключі той самий знак, що й на компасі. Усе складається.',[['Піти до дверей',1]]],['Робот засвітився й подарував карту скарбів школи. Кінець: ти став першовідкривачем!',[]],['Робот тихо писнув: «Невірно». Головне, що ти не здався.',[['Спробувати ще раз',3]]]];var ql='';function qG(i){if(i===0)ql='';$('ql').textContent=ql?'Твій попередній вибір: «'+ql+'»':'';$('qx').textContent=QS[i][0];var c=$('qc');c.innerHTML='';var h=QS[i][1].length?QS[i][1]:[['Почати знову',0]];h.forEach(function(o){var b=document.createElement('button');b.className='btn alt';b.textContent=o[0];b.onclick=function(){ql=o[0];qG(o[1])};c.appendChild(b)})}addTab('quest','Квест',`<div class='box'><b>Про що історія</b><br>Ти знайшов у шкільній бібліотеці старий компас. Він вказує на таємничі двері. Твої рішення ведуть до різних кінцівок, тож можна пройти ще раз.</div><div class='sub' id='ql'></div><div class='box' id='qx'></div><div id='qc'></div>`);qG(0);
+var WH=['Тарас Шевченко','Леся Українка','Котигорошко','Мавка','Колобок','Баба Яга','Змій Горинич','Лис Микита','Кіт у чоботях','Космонавт','Пілот','Пожежник','Динозавр','Єдиноріг','Робот','Пінгвін','Слон','Жираф','Козак Мамай','Лікар'],wd=[];addTab('who','Хто я?',`<p class='sub'>Тримай телефон екраном до інших, а сам не дивись. Вони підказують, а ти вгадуєш.</p><div class='box' id='wb' style='text-align:center;font-size:30px;font-weight:700;padding:34px 10px'></div><button class='btn' id='wn'>Наступний</button>`);function wN(){if(!wd.length)wd=aSh(WH.slice());$('wb').textContent=wd.pop()}$('wn').onclick=wN;wN();
+var tk=0,TF=[['Серце людини б’ється приблизно 100 000 разів на добу.',1],['Мед може не псуватися тисячі років.',1],['Кити — це риби.',0],['Сонце — це зірка.',1],['Страуси ховають голову в пісок, коли бояться.',0],['Дніпро — найдовша річка України.',1],['Блискавка ніколи не б’є двічі в те саме місце.',0],['У восьминога три серця.',1],['Людина використовує лише 10% мозку.',0],['Найближча до Сонця планета — Венера.',0],['Найвища гора України — Говерла.',1],['З погляду ботаніки помідор — це ягода.',1],['Вода кипить за 100 °C на рівні моря.',1],['Верблюд зберігає воду в горбах.',0]],td=[],tc,ts=0;addTab('tf','Правда?',`<div class='box' id='tq'></div><div class='sel'><button id='ty'>Правда</button><button id='tn'>Вигадка</button></div><div class='msg' id='tr'></div><button class='btn hide' id='tx'>Далі</button>`);function tNx(){tk=0;$('ty').className='';$('tn').className='';if(!td.length)td=aSh(TF.slice());tc=td.pop();$('tq').textContent=tc[0];$('tr').textContent='';$('tx').classList.add('hide')}function tA(v){if(tk)return;tk=1;var ok=v===tc[1],b=[$('tn'),$('ty')];if(ok)ts++;b[v].classList.add(ok?'ok':'no');b[tc[1]].classList.add('ok');$('tr').textContent=(ok?'Вірно! ':'Не вірно. ')+(tc[1]?'Це правда.':'Це вигадка.')+' Рахунок: '+ts;$('tx').classList.remove('hide');if(ok)boom()}$('ty').onclick=function(){tA(1)};$('tn').onclick=function(){tA(0)};$('tx').onclick=tNx;tNx();
+var AB='абвгґдеєжзиіїйклмнопрстуфхцчшщьюя';function cz(s,k){return s.split('').map(function(c){var u=c.toLowerCase(),i=AB.indexOf(u);if(i<0)return c;var r=AB[(i+k+66)%33];return c===u?r:r.toUpperCase()}).join('')}addTab('cz','Шифр',`<div class='box'><b>Як це працює</b><br>1. Вигадай секретну цифру (наприклад 3) і скажи її лише другові.<br>2. Напиши повідомлення й натисни «Зашифрувати». Кожна літера зсунеться в алфавіті вперед на твою цифру: при цифрі 3 літера А стане Г.<br>3. Надішли друзям отриманий текст. Вони вставляють його сюди, вводять ту саму цифру й натискають «Розшифрувати».</div><div class='sub'>Секретна цифра (1–32):</div><input id='zk' type='number' value='3' min='1' max='32'><div class='sub'>Текст:</div><textarea id='zi' rows='3' placeholder='Напиши або встав текст тут'></textarea><div class='sel'><button id='ze'>Зашифрувати</button><button id='zd'>Розшифрувати</button></div><div class='box' id='zo' style='white-space:pre-wrap'></div>`);$('ze').onclick=function(){$('zo').textContent=cz($('zi').value,+$('zk').value||0)};$('zd').onclick=function(){$('zo').textContent=cz($('zi').value,-(+$('zk').value||0))};
+
+
+
+aInfo();
+
+function pick(id,fn){[].forEach.call($(id).children,function(b){b.onclick=function(){[].forEach.call($(id).children,function(x){x.setAttribute('aria-pressed',x===b)});fn(b)}})}
+function rg(k){var a=[];for(var i=0;i<k;i++)a.push(i);return a}
+/* riddles */
+var R=[['Без рук і без ніг, а ворота відчиняє.',['вітер'],'Вітер'],['Чим більше з неї береш, тим більшою вона стає.',['яма','ями'],'Яма'],['Є міста, але немає будинків. Є ріки, але немає води.',['карта'],'Карта'],['Має стрілки, але не вміє стріляти.',['годинник'],'Годинник'],['Що належить тобі, але інші користуються цим частіше, ніж ти?',['імя'],'Твоє ім’я'],['Скільки місяців у році мають 28 днів?',['усі','всі','12','дванадцять'],'Усі дванадцять'],['Що можна зламати, навіть не торкнувшись?',['тишу','тиша','обіцянк'],'Тишу або обіцянку'],['Що завжди попереду, але його ніколи не побачиш?',['майбутн'],'Майбутнє'],['Сидить дід у сто шуб одягнений: хто його роздягає, той сльози проливає.',['цибул'],'Цибуля'],['Сто одежин, а всі без застібок.',['капуст'],'Капуста'],['Висить груша, а їсти не можна.',['лампочк','лампа'],'Лампочка']],rd=[],rcur;
+function nz(t){return t.toLowerCase().replace(/[^а-яіїєґ0-9 ]/g,'').trim()}
+function rN(){if(!rd.length)rd=aSh(R.slice());rcur=rd.pop();$('rq').textContent=rcur[0];$('ri').value='';$('rm').textContent='';$('rm').className='msg'}
+$('rc').onclick=function(){var v=nz($('ri').value);if(!v)return;if(rcur[1].some(function(a){return v.indexOf(a)>-1})){$('rm').textContent='🎉 Вірно! '+rcur[2];$('rm').className='msg wm';boom()}else{$('rm').className='msg';$('rm').textContent='Ще ні. Спробуй ще раз або натисни «Показати відповідь».'}};
+$('ri').onkeydown=function(e){if(e.key==='Enter')$('rc').click()};
+$('rs').onclick=function(){$('rm').className='msg';$('rm').textContent='Відповідь: '+rcur[2]};$('rn').onclick=rN;rN();
+/* exercises */
+var EX=[['Тут і зараз',[['Знайди 5 предметів, які бачиш',5],['Знайди 4 речі, яких можеш торкнутися',4],['Почуй 3 звуки',3],['Відчуй 2 запахи',2],['Назви 1 річ, яку в собі цінуєш',1]]],['Розслабити тіло',[['Стисни кулаки на 5 секунд і відпусти',1],['Підніми плечі до вух і опусти',1],['Напруж ноги й розслаб',1],['Потягнись угору',1]]],['Квадратне дихання',[['Вдих 4, пауза 4, видих 4, пауза 4. Повтори 4 рази',4]]],['Тепла хвилина',[['Потри долоні й поклади їх на очі',1],['Порахуй повільно від 20 до 1',1],['Згадай 3 хороші речі за день',3]]]];
+function exR(){var h='';EX.forEach(function(g){h+='<div class="sub"><b>'+g[0]+'</b></div>';g[1].forEach(function(r){h+='<div class="exr"><span>'+r[0]+'</span><span class="cb">';for(var k=0;k<r[1];k++)h+='<input type="checkbox" aria-label="Виконано">';h+='</span></div>'})});$('ex').innerHTML=h}
+$('ex').onchange=function(e){var r=e.target.closest('.exr');if(r)r.classList.toggle('dn',!r.querySelector('input:not(:checked)'))};
+$('exr').onclick=exR;exR();
+/* sudoku */
+var UN=4,UD=0,ua,ux,ub,us=null;
+addTab('su','Судоку',`<div class='box'><b>Правила</b><br>Заповни порожні клітинки цифрами так, щоб у кожному рядку, стовпці та малому квадраті цифри не повторювалися. Торкнись клітинки, потім цифри внизу. «✕» стирає цифру.</div><div class='sub'>Розмір:</div><div class='sel' id='uz'><button data-n='4' aria-pressed='true'>4×4</button><button data-n='9' aria-pressed='false'>9×9</button></div><div class='sub'>Складність:</div><div class='sel' id='ud'><button data-d='0' aria-pressed='true'>Легко</button><button data-d='1' aria-pressed='false'>Середньо</button><button data-d='2' aria-pressed='false'>Складно</button></div><div class='g' id='ug'></div><div class='sel' id='uk'></div><div class='msg' id='um'></div><div class='sel'><button id='uc'>Перевірити</button><button id='un'>Нова гра</button></div>`);
+function ord(bs){var o=[];aSh(rg(bs)).forEach(function(b){aSh(rg(bs)).forEach(function(r){o.push(b*bs+r)})});return o}
+function gen(n){var bs=n===4?2:3,d=aSh(rg(n)),R2=ord(bs),C=ord(bs),g=[];R2.forEach(function(r,i){g[i]=[];C.forEach(function(c,j){g[i][j]=d[(bs*(r%bs)+((r/bs)|0)+c)%n]+1})});return g}
+function uNew(){var n=UN,k=(n===4?[10,8,6]:[40,32,26])[UD],f=gen(n),ps=aSh(rg(n*n)).slice(0,k);ua=[];ux=[];us=null;for(var y=0;y<n;y++){ua[y]=[];ux[y]=[];for(var x=0;x<n;x++){var g=ps.indexOf(y*n+x)>-1;ux[y][x]=g;ua[y][x]=g?f[y][x]:0}}$('um').textContent='';uR()}
+function uR(){var n=UN,bs=n===4?2:3,g=$('ug');g.innerHTML='';g.className='g'+(n===9?' n9':'');g.style.gridTemplateColumns='repeat('+n+',1fr)';g.style.maxWidth=n===4?'260px':'380px';g.style.gap=n===4?'6px':'3px';ub=[];for(var y=0;y<n;y++){ub[y]=[];for(var x=0;x<n;x++){(function(y,x){var b=document.createElement('button');b.textContent=ua[y][x]||'';if(ux[y][x])b.className='fx';if(((y/bs|0)+(x/bs|0))%2)b.classList.add('b2');b.onclick=function(){if(ux[y][x])return;if(us)ub[us[0]][us[1]].classList.remove('sel1');us=[y,x];b.classList.add('sel1')};ub[y][x]=b;g.appendChild(b)})(y,x)}}var k=$('uk');k.innerHTML='';for(var v=1;v<=n;v++)(function(v){var b=document.createElement('button');b.textContent=v;b.onclick=function(){uSet(v)};k.appendChild(b)})(v);var e=document.createElement('button');e.textContent='✕';e.onclick=function(){uSet(0)};k.appendChild(e)}
+function uSet(v){if(!us)return;ua[us[0]][us[1]]=v;ub[us[0]][us[1]].textContent=v||''}
+function uCk(){var n=UN,bs=n===4?2:3,ok=true,all=rg(n).map(function(i){return i+1}).join();function c(a){return a.slice().sort(function(p,q){return p-q}).join()===all}for(var i=0;i<n;i++){if(!c(ua[i])||!c(ua.map(function(r){return r[i]})))ok=false}for(var y=0;y<n;y+=bs)for(var x=0;x<n;x+=bs){var a=[];for(var j=0;j<bs;j++)for(var l=0;l<bs;l++)a.push(ua[y+j][x+l]);if(!c(a))ok=false}$('um').textContent=ok?'🎉 Чудово, усе вірно!':'Поки є помилки або порожні клітинки.';if(ok)boom()}
+pick('uz',function(b){UN=+b.dataset.n;uNew()});pick('ud',function(b){UD=+b.dataset.d;uNew()});$('uc').onclick=uCk;$('un').onclick=uNew;uNew();
+/* mood */
+var ME=['😀','🙂','😐','😟','😢'],me='';
+function mL(){try{return JSON.parse(localStorage.getItem('kitMood')||'[]')}catch(e){return []}}
+function mR(){var l=$('ml');l.innerHTML='';mL().slice(-10).reverse().forEach(function(x){var d=document.createElement('div');d.className='box';d.textContent=x[1]+' '+x[0]+(x[2]?' — '+x[2]:'');l.appendChild(d)})}
+addTab('md','Настрій',`<p class='sub'>Як ти сьогодні? Обери смайлик і, якщо хочеш, напиши кілька слів. Записи бачить лише цей телефон.</p><div class='sel' id='mb'></div><textarea id='mt' rows='3' placeholder='Що сталося? Що відчуваєш? (необов’язково)'></textarea><button class='btn' id='ms'>Зберегти</button><div id='ml' style='margin-top:12px'></div><button class='btn alt' id='mc'>Очистити все</button>`);
+ME.forEach(function(m){var b=document.createElement('button');b.textContent=m;b.style.fontSize='26px';b.setAttribute('aria-pressed','false');b.onclick=function(){me=m;[].forEach.call($('mb').children,function(x){x.setAttribute('aria-pressed',x===b)})};$('mb').appendChild(b)});
+$('ms').onclick=function(){if(!me)return;var a=mL();a.push([new Date().toLocaleDateString('uk-UA'),me,$('mt').value.trim()]);try{localStorage.setItem('kitMood',JSON.stringify(a.slice(-30)))}catch(e){}$('mt').value='';mR()};
+$('mc').onclick=function(){try{localStorage.removeItem('kitMood')}catch(e){}mR()};mR();
+/* story together */
+var YS=[],YN=5,YT='';
+addTab('story','Історія разом',`<div id='y1'><div class='box'><b>Як грати</b><br>Придумайте тему. Гравці по черзі пишуть по одному реченню, і воно одразу ховається. Наприкінці всі речення відкриваються, і виходить спільна історія.</div><input id='yt' placeholder='Тема, наприклад: Пригода у школі'><div class='sub'>Скільки речень:</div><div class='sel' id='yn'><button data-n='3'>3</button><button data-n='5' aria-pressed='true'>5</button><button data-n='8'>8</button><button data-n='0'>Без ліміту</button></div><button class='btn' id='yg'>Почати</button></div><div id='y2' class='hide'><div class='box' id='yh'></div><textarea id='yx' rows='3' placeholder='Напиши своє речення'></textarea><div class='msg' id='ym'></div><button class='btn' id='ya'>Додати речення</button><button class='btn alt' id='ye'>Кінець: показати історію</button></div><div id='y3' class='hide'><div class='box' id='yr'></div><button class='btn' id='yb'>Нова історія</button></div>`);
+pick('yn',function(b){YN=+b.dataset.n});
+function yM(t){$('ym').textContent=t+' Речень: '+YS.length+(YN?' з '+YN:'')+'.'}
+$('yg').onclick=function(){YT=$('yt').value.trim()||'Без теми';YS=[];$('yh').textContent='Тема: '+YT;$('yx').value='';yM('Пише перший гравець.');$('y1').classList.add('hide');$('y2').classList.remove('hide')};
+$('ya').onclick=function(){var t=$('yx').value.trim();if(!t)return;if(!/[.!?…]$/.test(t))t+='.';YS.push(t);$('yx').value='';if(YN&&YS.length>=YN){yE();return}yM('Збережено й сховано. Передай телефон далі.')};
+function yE(){if(!YS.length)return;$('y2').classList.add('hide');$('y3').classList.remove('hide');var r=$('yr');r.innerHTML='';var h=document.createElement('b');h.textContent=YT;var p=document.createElement('p');p.textContent=YS.join(' ');r.appendChild(h);r.appendChild(p);boom()}
+$('ye').onclick=yE;$('yb').onclick=function(){$('y3').classList.add('hide');$('y1').classList.remove('hide');$('yt').value=''};
+/* hub */
+var GI=['tttBox','memBox','alias','su','cz','who'],GM=[['tttBox','❌⭕','Хрестики-нулики'],['memBox','🧠','Пам’ять'],['alias','⏱️','Аліас'],['su','🔢','Судоку'],['cz','🔐','Шифр'],['who','🎭','Хто я?']];
+function gHome(){GI.forEach(function(i){$(i).classList.add('hide')});$('hub').classList.remove('hide');$('gbar').classList.add('hide');aPause()}
+function gOpen(i){$('hub').classList.add('hide');$(i).classList.remove('hide');$('gbar').classList.remove('hide')}
+['alias','su','cz','who'].forEach(function(i){$('games').appendChild($(i))});
+GM.forEach(function(g){var b=document.createElement('button');b.className='tile';b.innerHTML='<b>'+g[1]+'</b><span>'+g[2]+'</span>';b.onclick=function(){gOpen(g[0])};$('hub').appendChild(b)});
+$('gback').onclick=gHome;
+
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+</script>
+</body>
+</html>
