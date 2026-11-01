@@ -11,9 +11,9 @@
 <meta name="apple-mobile-web-app-title" content="Промінь">
 <meta name="theme-color" content="#10151f">
 <style>
-:root{--bg:#10151f;--panel:#1a2233;--ink:#eef2fb;--mute:#9fb0d0;--line:#2c3a57;--acc:#ffd166;--accink:#1a2233;--ok:#5fd6a0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f6fb;--panel:#fff;--ink:#17203a;--mute:#52618a;--line:#d3dbee;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;color-scheme:light}}
-:root[data-theme="light"]{--bg:#f4f6fb;--panel:#fff;--ink:#17203a;--mute:#52618a;--line:#d3dbee;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;color-scheme:light}
+:root{--bg:#10151f;--panel:#1a2233;--ink:#eef2fb;--mute:#9fb0d0;--line:#2c3a57;--acc:#ffd166;--accink:#1a2233;--ok:#5fd6a0;--btn:var(--panel);--btn2:var(--bg);--ba:transparent;--pb:var(--acc);--pbt:var(--accink);--gb:transparent;--gbt:var(--ink);--gbb:var(--line);--bx:var(--panel);--gc:var(--bg);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e4e6d0;--panel:#fff;--ink:#17203a;--mute:#5d6350;--line:#b9bd9c;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;--btn:#cdd0b3;--btn2:#cdd0b3;--ba:#cdd0b3;--pb:#6a7060;--pbt:#fff;--gb:#6a7060;--gbt:#fff;--gbb:#6a7060;--bx:#fff;--gc:#fff;color-scheme:light}}
+:root[data-theme="light"]{--bg:#e4e6d0;--panel:#fff;--ink:#17203a;--mute:#5d6350;--line:#b9bd9c;--acc:#17203a;--accink:#fff;--ok:#1c8a5c;--btn:#cdd0b3;--btn2:#cdd0b3;--ba:#cdd0b3;--pb:#6a7060;--pbt:#fff;--gb:#6a7060;--gbt:#fff;--gbb:#6a7060;--bx:#fff;--gc:#fff;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 main{max-width:560px;margin:0 auto;padding:14px}
@@ -65,11 +65,35 @@ input[type=checkbox]{width:30px;height:30px;padding:0;margin:0;accent-color:var(
 #uk{flex-wrap:wrap}#uk button{flex:1 0 15%;padding:12px 0;font-size:20px}
 .g.n9 button{font-size:19px;border-radius:5px}
 .g{gap:0;border:3px solid var(--ink);border-radius:8px;overflow:hidden}.g button{border:1px solid var(--line);border-radius:0}.g.n9 button{border-radius:0}
+nav button{background:var(--btn)}
+nav button[aria-pressed="true"]{background:var(--pb);color:var(--pbt);border-color:var(--pb)}
+.tile{background:var(--btn)}
+.sel button{background:var(--btn2)}
+.btn{background:var(--pb);color:var(--pbt);border-color:var(--pb)}
+.btn.alt{background:var(--ba);color:var(--ink);border-color:var(--line)}
+#gback{background:var(--gb);color:var(--gbt);border-color:var(--gbb)}
+.box,input,textarea{background:var(--bx)}
+#ttt button,#mem button,.g button{background:var(--gc)}
+.sos{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid var(--line);border-radius:12px;margin-bottom:8px;text-decoration:none;color:var(--ink);background:var(--btn)}
+.sos .ic{font-size:30px}.sos .num{margin-left:auto;font-weight:800;font-size:21px;white-space:nowrap}
+.exr>button{padding:10px 14px;border:2px solid var(--line);border-radius:10px;background:var(--btn2)}
+.tiles{grid-template-columns:repeat(3,1fr);gap:10px}.tile{font-size:13px;padding:6px;gap:6px;word-break:break-word}.tile b{font-size:34px}
+#sosb[aria-pressed="true"]{background:var(--pb);color:var(--pbt)}
+.bd{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));max-width:400px;margin:8px auto;background:#fff;border:2px solid #7a5af8;font-weight:700;color:#4b2fd9}
+.bd div{min-width:0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid #bfd0f5;font-size:14px;user-select:none}
+.bd .h{border-color:transparent}.bd .s{background:#e9e1ff}.bd .x{color:#e03131;font-size:22px}.bd .m{color:#e03131;font-size:26px;line-height:1}
+.sel button:disabled{opacity:.4}
+.tcv{width:60%;max-width:240px;aspect-ratio:1/2;margin:8px auto;background:#0b1020;border:2px solid var(--line);border-radius:8px}
+.pad{display:flex;gap:8px;justify-content:center;margin:8px 0}.pad button{flex:1;max-width:90px;padding:16px 0;font-size:24px;border:2px solid var(--line);border-radius:12px;background:var(--btn2);touch-action:manipulation}
+.pet{font-size:110px;text-align:center;line-height:1.2;animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-10px)}}
+.bar{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:2px 0 10px}.bar i{display:block;height:100%;background:var(--ok);transition:width .4s}
+#paw{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:9;font-weight:800;font-size:26px;color:#fff;text-shadow:0 2px 8px #000}
+#paw svg{animation:paw .95s ease-out both}@keyframes paw{0%{transform:translateX(120px) rotate(30deg) scale(.4);opacity:0}40%{transform:translateX(0) rotate(-12deg) scale(1.1);opacity:1}65%{transform:rotate(10deg);opacity:1}100%{transform:rotate(-6deg);opacity:0}}
 </style>
 </head>
 <body>
 <main>
-<div class="hd"><div class="top"><h1><img src="icon-192.png" width="38" height="38" alt="" style="border-radius:10px;vertical-align:middle;margin-right:10px">Промінь</h1><button id="th" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Змінити тему">◐</button></div>
+<div class="hd"><div class="top"><h1><img src="icon-192.png" width="38" height="38" alt="" style="border-radius:10px;vertical-align:middle;margin-right:10px">Промінь</h1><div style="display:flex;gap:8px"><button id="sosb" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Допомога" aria-pressed="false">🆘</button><button id="th" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Змінити тему">◐</button></div></div>
 <p class="sub">Працює без інтернету після встановлення на головний екран.</p>
 <nav>
 <button data-t="games" aria-pressed="true">Ігри</button>
@@ -88,11 +112,7 @@ input[type=checkbox]{width:30px;height:30px;padding:0;margin:0;accent-color:var(
 <div id="ttt"></div>
 <button class="btn alt" id="tr">Нова гра</button>
 </div>
-<div id="memBox" class="hide">
-<div class="msg" id="mm"></div>
-<div id="mem"></div>
-<button class="btn alt" id="mr">Нова гра</button>
-</div>
+<div id="memBox" class="hide"><div class="sel" id="md2"><button data-l="e" aria-pressed="true">Легко</button><button data-l="m" aria-pressed="false">Середньо</button><button data-l="h" aria-pressed="false">Складно</button></div><label style="display:flex;align-items:center;gap:10px;margin:6px 0"><input type="checkbox" id="mvs" checked> Звук «мяу»</label><div class="msg" id="mm"></div><div id="mem"></div><button class="btn alt" id="mr">Нова гра</button></div>
 </section>
 
 <section id="riddles" class="hide"><div class="box" id="rq"></div><input id="ri" placeholder="Твоя відповідь" autocomplete="off"><div class="msg" id="rm"></div><button class="btn" id="rc">Перевірити</button><div class="sel" style="margin-top:10px"><button id="rs">Показати відповідь</button><button id="rn">Інша загадка</button></div></section>
@@ -136,11 +156,11 @@ var dark=cur?cur==="dark":!window.matchMedia("(prefers-color-scheme:light)").mat
 var n=dark?"light":"dark";document.documentElement.setAttribute("data-theme",n);sv("kitTheme",n)};
 
 /* tabs */
-var tabs=["games","riddles","calm","quest","tf","md","story"];
+var tabs=["games","sos","riddles","calm","quest","tf","md","story"];
 document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
 tabs.forEach(function(t){$(t).classList.toggle("hide",t!==b.dataset.t)});
 document.querySelectorAll("nav button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
-stopB();aPause();gHome()}});
+stopB();aPause();gHome();$('sosb').setAttribute('aria-pressed','false')}});
 
 /* tic-tac-toe */
 var bd,turn,over;
@@ -158,19 +178,12 @@ function win(w){var g=$('ttt'),a=g.children[w[0]],c=g.children[w[2]];w.forEach(f
 function boom(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;var f=document.createElement('div');f.className='fw';var C=['#ffd166','#ef476f','#06d6a0','#118ab2','#ff9f1c','#c77dff'];for(var k=0;k<3;k++){var bx=innerWidth*(.2+Math.random()*.6),by=innerHeight*(.15+Math.random()*.4),cl=C[Math.floor(Math.random()*C.length)];for(var j=0;j<28;j++){var p=document.createElement('i'),an=j/28*6.2832,d=70+Math.random()*70;p.style.left=bx+'px';p.style.top=by+'px';p.style.background=k%2?cl:C[j%C.length];p.style.setProperty('--dx',Math.cos(an)*d+'px');p.style.setProperty('--dy',Math.sin(an)*d+'px');p.style.animationDelay=(k*.25)+'s';f.appendChild(p)}}document.body.appendChild(f);setTimeout(function(){f.remove()},2200)}
 
 /* memory */
-var E=["🌻","🐱","🚀","🍎","🎈","🐟"],mo=[],mf=[],lock=false;
-function mNew(){var a=E.concat(E);for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x}
-mo=a;mf=[];lock=false;var g=$("mem");g.innerHTML="";var moves=0,found=0;$("mm").textContent="Знайди пари";
-a.forEach(function(e,i){var b=document.createElement("button");b.textContent="?";b.setAttribute("aria-label","Картка "+(i+1));
-b.onclick=function(){if(lock||b.classList.contains("open")||b.classList.contains("done"))return;
-b.classList.add("open");b.textContent=e;mf.push(b);
-if(mf.length===2){moves++;lock=true;var p=mf[0],q=mf[1];
-if(p.textContent===q.textContent){p.className=q.className="done";found++;mf=[];lock=false;
-if(found===6)boom(),$("mm").textContent="Усі пари знайдено за "+moves+" ходів!"}
-else setTimeout(function(){p.className=q.className="";p.textContent=q.textContent="?";mf=[];lock=false},800)}};
-g.appendChild(b)})}
-$("mr").onclick=mNew;mNew();
-
+var EMJ=['🌻','🐱','🚀','🍎','🎈','🐟','🐶','🦊','🐼','🍓','⚽','🎸','🌈','🍩','🐢','🦋','🚲','⭐'],MLV={e:[4,3],m:[5,4],h:[6,6]},mlv='e',mf=[],lock=false;
+function meow(){if(!$('mvs').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();var t=AC.currentTime,o=AC.createOscillator(),f=AC.createBiquadFilter(),g=AC.createGain();o.type='sawtooth';o.frequency.setValueAtTime(420,t);o.frequency.linearRampToValueAtTime(820,t+.18);o.frequency.linearRampToValueAtTime(480,t+.55);f.type='bandpass';f.Q.value=2.5;f.frequency.setValueAtTime(900,t);f.frequency.linearRampToValueAtTime(1600,t+.2);f.frequency.linearRampToValueAtTime(800,t+.55);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.18,t+.1);g.gain.linearRampToValueAtTime(.0001,t+.6);o.connect(f);f.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.65)}catch(e){}}
+function paw(){var d=document.createElement('div');d.id='paw';d.innerHTML="<svg viewBox='0 0 100 100' width='170'><circle cx='50' cy='58' r='40' fill='#ffb347'/><ellipse cx='50' cy='68' rx='20' ry='16' fill='#ff8fab'/><ellipse cx='27' cy='44' rx='8' ry='10' fill='#ff8fab'/><ellipse cx='43' cy='33' rx='8' ry='10' fill='#ff8fab'/><ellipse cx='59' cy='33' rx='8' ry='10' fill='#ff8fab'/><ellipse cx='75' cy='44' rx='8' ry='10' fill='#ff8fab'/></svg><span>Дай п’ять! 🙌</span>";document.body.appendChild(d);setTimeout(function(){d.remove()},1100)}
+function mNew(){var c=MLV[mlv][0],n=c*MLV[mlv][1]/2,a=EMJ.slice(0,n);a=aSh(a.concat(a));mf=[];lock=false;var g=$('mem');g.innerHTML='';g.style.gridTemplateColumns='repeat('+c+',1fr)';g.style.maxWidth=c<=4?'340px':'400px';var moves=0,found=0,fs=c<=4?'38px':c===5?'30px':'24px';$('mm').textContent='Знайди пари';
+a.forEach(function(e,i){var b=document.createElement('button');b.textContent='?';b.style.fontSize=fs;b.setAttribute('aria-label','Картка '+(i+1));b.onclick=function(){if(lock||b.classList.contains('open')||b.classList.contains('done'))return;b.classList.add('open');b.textContent=e;mf.push(b);if(mf.length===2){moves++;lock=true;var p=mf[0],q=mf[1];if(p.textContent===q.textContent){p.className=q.className='done';found++;mf=[];lock=false;paw();meow();if(found===n){boom();$('mm').textContent='Усі пари знайдено за '+moves+' ходів!'}}else setTimeout(function(){p.className=q.className='';p.textContent=q.textContent='?';mf=[];lock=false},800)}};g.appendChild(b)})}
+pick('md2',function(b){mlv=b.dataset.l;mNew()});$('mr').onclick=mNew;mNew();
 /* breathing */
 var bt=null,bc=0,cur=[],cm=null,AC=null;
 function bp(up){if(!$('sndk').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();var t=AC.currentTime,d=up?4:6,m=AC.createGain(),f=AC.createBiquadFilter(),pk=.035;f.type='lowpass';f.frequency.value=700;m.gain.setValueAtTime(up?.0001:pk,t);if(up){m.gain.linearRampToValueAtTime(.012,t+d*.5);m.gain.linearRampToValueAtTime(pk,t+d)}else{m.gain.linearRampToValueAtTime(.012,t+d*.45);m.gain.linearRampToValueAtTime(.0001,t+d)}m.connect(f);f.connect(AC.destination);[196,294,392].forEach(function(fr){var o=AC.createOscillator();o.type='sine';o.frequency.setValueAtTime(up?fr:fr*1.04,t);o.frequency.linearRampToValueAtTime(up?fr*1.04:fr,t+d);o.connect(m);o.start(t);o.stop(t+d+.1);cur.push(o)});cm=m}catch(e){}}
@@ -247,15 +260,93 @@ $('yg').onclick=function(){YT=$('yt').value.trim()||'Без теми';YS=[];$('y
 $('ya').onclick=function(){var t=$('yx').value.trim();if(!t)return;if(!/[.!?…]$/.test(t))t+='.';YS.push(t);$('yx').value='';if(YN&&YS.length>=YN){yE();return}yM('Збережено й сховано. Передай телефон далі.')};
 function yE(){if(!YS.length)return;$('y2').classList.add('hide');$('y3').classList.remove('hide');var r=$('yr');r.innerHTML='';var h=document.createElement('b');h.textContent=YT;var p=document.createElement('p');p.textContent=YS.join(' ');r.appendChild(h);r.appendChild(p);boom()}
 $('ye').onclick=yE;$('yb').onclick=function(){$('y3').classList.add('hide');$('y1').classList.remove('hide');$('yt').value=''};
+/* battleship */
+var BL='АБВГДЕЖЗИК'.split(''),bsh=[],bg=[],bmk=[],bem=[],bph='set',bcur=4,bvert=false,bview='my',NEED={4:1,3:2,2:3,1:4};
+addTab('bat','Морський бій',`<div id='b1'><div class='box'><b>Розстав кораблі</b><br>Обери корабель, торкнись клітинки: він стане вправо або вниз. Кораблі не можуть торкатися. Торкнись корабля ще раз, щоб прибрати.</div><div class='sel' id='bpl'></div><div class='sel'><button id='br'></button><button id='brn'>🎲 Випадково</button><button id='bclr'>Скинути</button></div></div><div id='b2' class='hide'><div class='sub'>«Поле суперника»: торкайся клітинки: крапка — промах, ✕ — влучив. «Моє поле»: торкайся клітинки, куди стріляє суперник, і телефон підкаже, що відповісти.</div><div class='sel' id='bv'><button data-v='my' aria-pressed='true'>Моє поле</button><button data-v='en' aria-pressed='false'>Поле суперника</button></div></div><div class='msg' id='bm'></div><div id='bb'></div><div class='msg' id='bn'></div><button class='btn' id='bgo'>Готово, починаємо бій</button><button class='btn alt hide' id='bnew'>Нова гра</button>`);
+function bReset(){bsh=[];bg=[];bmk=[];bem=[];for(var y=0;y<10;y++){bg.push(Array(10).fill(0));bmk.push(Array(10).fill(0));bem.push(Array(10).fill(0))}}
+function bLeft(l){return NEED[l]-bsh.filter(function(s){return s&&s.len===l}).length}
+function bCells(y,x,l,v){var a=[];for(var k=0;k<l;k++)a.push(v?[y+k,x]:[y,x+k]);return a}
+function bOK(cs){return cs.every(function(c){var y=c[0],x=c[1];if(y<0||y>9||x<0||x>9)return false;for(var j=y-1;j<=y+1;j++)for(var i=x-1;i<=x+1;i++)if(j>=0&&j<10&&i>=0&&i<10&&bg[j][i])return false;return true})}
+function bPut(cs,l){bsh.push({len:l,cells:cs});cs.forEach(function(c){bg[c[0]][c[1]]=bsh.length})}
+function bMsg(t){$('bm').textContent=t}
+function bSunk(id){return bsh[id-1].cells.every(function(c){return bmk[c[0]][c[1]]===2})}
+function bRand(){[4,3,3,2,2,2,1,1,1,1].forEach(function(l){for(var t=0;t<300;t++){var v=Math.random()<.5,y=Math.floor(Math.random()*10),x=Math.floor(Math.random()*10),cs=bCells(y,x,l,v);if(bOK(cs)){bPut(cs,l);break}}});return bsh.length===10}
+function bTap(y,x){
+if(bph==='set'){var id=bg[y][x];if(id){bsh[id-1].cells.forEach(function(c){bg[c[0]][c[1]]=0});bsh[id-1]=null;bMsg('')}else if(bLeft(bcur)>0){var cs=bCells(y,x,bcur,bvert);if(bOK(cs)){bPut(cs,bcur);bMsg('');if(!bLeft(bcur))[4,3,2,1].some(function(l){if(bLeft(l)>0){bcur=l;return true}})}else bMsg('Тут не можна: кораблі не повинні торкатися й виходити за поле.')}bR();return}
+if(bview==='en'){bem[y][x]=(bem[y][x]+1)%3;bMsg(bem[y][x]===2?'Влучив! Став ✕ і ходи ще раз.':bem[y][x]===1?'Промах. Тепер ходить суперник.':'');bR();return}
+if(bmk[y][x]){bmk[y][x]=0;bMsg('Позначку прибрано.')}else{var i2=bg[y][x];if(!i2){bmk[y][x]=1;bMsg('Скажи: «Мимо!»')}else{bmk[y][x]=2;if(bSunk(i2)){var lf=bsh.filter(function(s,i){return s&&!bSunk(i+1)}).length;bMsg(lf?'Скажи: «Потопив!»':'Усі твої кораблі потоплено. Гра була чудова!')}else bMsg('Скажи: «Поранив!»')}}bR()}
+function bR(){var set=bph==='set',n=bsh.filter(Boolean).length,b=$('bb'),my=set||bview==='my';
+$('b1').classList.toggle('hide',!set);$('b2').classList.toggle('hide',set);$('bgo').classList.toggle('hide',!set);$('bnew').classList.toggle('hide',set);
+if(set){var p=$('bpl');p.innerHTML='';[4,3,2,1].forEach(function(l){var k=document.createElement('button');k.textContent=l+' ×'+bLeft(l);k.disabled=!bLeft(l);k.setAttribute('aria-pressed',l===bcur);k.onclick=function(){bcur=l;bR()};p.appendChild(k)});$('br').textContent=bvert?'↕ Вертикально':'↔ Горизонтально';$('bgo').disabled=n<10;$('bgo').style.opacity=n<10?.5:1}
+b.innerHTML='';b.className='bd';var c=document.createElement('div');c.className='h';b.appendChild(c);BL.forEach(function(l){var d=document.createElement('div');d.className='h';d.textContent=l;b.appendChild(d)});
+for(var y=0;y<10;y++){var h=document.createElement('div');h.className='h';h.textContent=y+1;b.appendChild(h);for(var x=0;x<10;x++){(function(y,x){var d=document.createElement('div'),id=bg[y][x];if(my&&id){d.classList.add('s');var P='3px solid #5b2fd9',f=function(j,i){return j>=0&&j<10&&i>=0&&i<10&&bg[j][i]===id};if(!f(y-1,x))d.style.borderTop=P;if(!f(y+1,x))d.style.borderBottom=P;if(!f(y,x-1))d.style.borderLeft=P;if(!f(y,x+1))d.style.borderRight=P}var m=my?(set?0:bmk[y][x]):bem[y][x];if(m===1){d.textContent='•';d.classList.add('m')}if(m===2){d.textContent='✕';d.classList.add('x')}d.onclick=function(){bTap(y,x)};b.appendChild(d)})(y,x)}}
+$('bn').textContent=set?'':'Мої кораблі на плаву: '+bsh.filter(function(s,i){return s&&!bSunk(i+1)}).length+' з 10'}
+pick('bv',function(b){bview=b.dataset.v;bR()});
+$('br').onclick=function(){bvert=!bvert;bR()};
+$('bclr').onclick=function(){bReset();bcur=4;bMsg('');bR()};
+$('brn').onclick=function(){do{bReset()}while(!bRand());bcur=4;bMsg('');bR()};
+$('bgo').onclick=function(){if(bsh.filter(Boolean).length<10)return;bph='play';bview='my';[].forEach.call($('bv').children,function(x,i){x.setAttribute('aria-pressed',i===0)});bMsg('Бій! Називайте клітинки вголос, наприклад «Б5».');bR()};
+$('bnew').onclick=function(){bph='set';bReset();bcur=4;bview='my';bMsg('');bR()};
+bReset();bR();
+/* tetris */
+var TW=10,TH=20,TCL=['#00d4ff','#ffd400','#a64dff','#00e676','#ff5252','#2979ff','#ff9100'],TSH=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]]],Tb=[],Tp=null,Tx=0,Ty=0,Tt=null,Tsc=0,Tln=0,Tov=false;
+addTab('tet','Тетріс',`<div class='msg' id='tinfo'></div><canvas id='tcv' class='tcv' width='240' height='480'></canvas><div class='pad'><button id='tkl' aria-label='Вліво'>◀</button><button id='tkro' aria-label='Повернути'>⟳</button><button id='tkr' aria-label='Вправо'>▶</button></div><div class='pad'><button id='tkd' aria-label='Вниз'>▼</button><button id='tkdr' aria-label='Скинути вниз'>⏬</button></div><button class='btn alt' id='tkn'>Нова гра</button>`);
+function tzPause(){if(Tt){clearInterval(Tt);Tt=null}}
+function tzSpeed(){tzPause();Tt=setInterval(tzDn,Math.max(120,700-Tln*25))}
+function tzNew(){Tb=[];for(var y=0;y<TH;y++)Tb.push(Array(TW).fill(0));Tsc=0;Tln=0;Tov=false;tzSp();if(!Tov)tzSpeed();tzD()}
+function tzSp(){var i=Math.floor(Math.random()*7);Tp={m:TSH[i].map(function(r){return r.slice()}),c:i+1};Tx=Math.floor((TW-Tp.m[0].length)/2);Ty=0;if(tzCol(Tp.m,Tx,Ty)){Tov=true;tzPause()}}
+function tzCol(m,px,py){for(var y=0;y<m.length;y++)for(var x=0;x<m[y].length;x++)if(m[y][x]){var X=px+x,Y=py+y;if(X<0||X>=TW||Y>=TH||(Y>=0&&Tb[Y][X]))return true}return false}
+function tzRot(){if(Tov||!Tt)return;var m=Tp.m,r=m[0].map(function(_,i){return m.map(function(row){return row[i]}).reverse()});[0,-1,1,-2,2].some(function(k){if(!tzCol(r,Tx+k,Ty)){Tp.m=r;Tx+=k;return true}return false});tzD()}
+function tzMv(d){if(Tov||!Tt)return;if(!tzCol(Tp.m,Tx+d,Ty)){Tx+=d;tzD()}}
+function tzDn(){if(Tov||!Tt)return;if(!tzCol(Tp.m,Tx,Ty+1))Ty++;else tzLock();tzD()}
+function tzLock(){Tp.m.forEach(function(r,y){r.forEach(function(v,x){if(v&&Ty+y>=0)Tb[Ty+y][Tx+x]=Tp.c})});var n=0;for(var y=TH-1;y>=0;y--){if(Tb[y].every(Boolean)){Tb.splice(y,1);Tb.unshift(Array(TW).fill(0));n++;y++}}if(n){Tln+=n;Tsc+=[0,100,300,500,800][n]}tzSp();if(n&&!Tov)tzSpeed()}
+function tzDrop(){if(Tov||!Tt)return;while(!tzCol(Tp.m,Tx,Ty+1))Ty++;tzLock();tzD()}
+function tzD(){var c=$('tcv').getContext('2d'),s=24;c.fillStyle='#0b1020';c.fillRect(0,0,240,480);for(var y=0;y<TH;y++)for(var x=0;x<TW;x++)if(Tb[y]&&Tb[y][x]){c.fillStyle=TCL[Tb[y][x]-1];c.fillRect(x*s+1,y*s+1,s-2,s-2)}if(Tp&&!Tov)Tp.m.forEach(function(r,y){r.forEach(function(v,x){if(v){c.fillStyle=TCL[Tp.c-1];c.fillRect((Tx+x)*s+1,(Ty+y)*s+1,s-2,s-2)}})});$('tinfo').textContent='Очки: '+Tsc+' · Лінії: '+Tln;if(Tov){c.fillStyle='rgba(0,0,0,.65)';c.fillRect(0,180,240,110);c.fillStyle='#fff';c.font='bold 26px sans-serif';c.textAlign='center';c.fillText('Гру завершено',120,242)}}
+function hold(id,fn){var b=$(id),iv=null;b.onpointerdown=function(e){e.preventDefault();fn();clearInterval(iv);iv=setInterval(fn,120)};['pointerup','pointerleave','pointercancel'].forEach(function(ev){b['on'+ev]=function(){clearInterval(iv)}})}
+hold('tkl',function(){tzMv(-1)});hold('tkr',function(){tzMv(1)});hold('tkd',tzDn);$('tkro').onclick=tzRot;$('tkdr').onclick=tzDrop;$('tkn').onclick=tzNew;
+document.addEventListener('keydown',function(e){if($('tet').classList.contains('hide'))return;var k=e.key;if(k==='ArrowLeft')tzMv(-1);else if(k==='ArrowRight')tzMv(1);else if(k==='ArrowDown')tzDn();else if(k==='ArrowUp')tzRot();else if(k===' ')tzDrop();else return;e.preventDefault()});
+/* tamagotchi */
+var PA=['🐱','🐶','🐰','🐼','🦊','🐹','🐸','🦄'],pet=null;
+addTab('pet2','Тамагочі',`<div id='ptg'></div>`);
+try{pet=JSON.parse(ld('kitPet')||'null')}catch(e){pet=null}
+function pS(){sv('kitPet',JSON.stringify(pet))}
+function pTick(){if(!pet)return;var m=Math.min(240,(Date.now()-pet.t)/60000);pet.t=Date.now();pet.f=Math.max(10,pet.f-m*1.2);pet.h=Math.max(10,pet.h-m*.8);pet.e=Math.max(10,pet.e-m*.5);pet.c=Math.max(10,pet.c-m*.6);pS()}
+function pAct(k,d,msg,k2,d2){pTick();pet[k]=Math.min(100,pet[k]+d);if(k2)pet[k2]=Math.max(10,Math.min(100,pet[k2]+d2));pS();pR(msg)}
+function pR(msg){var r=$('ptg');r.innerHTML='';
+if(!pet){r.innerHTML="<div class='box'><b>Обери друга</b><br>Це твій улюбленець. За ним треба доглядати: годувати, гратися, купати й укладати спати. Він не зникне, навіть якщо ти довго не заходитимеш.</div><div class='sel' id='pa' style='flex-wrap:wrap'></div><input id='pn' placeholder='Як його звати?'><div class='msg' id='pm'></div>";
+PA.forEach(function(a){var b=document.createElement('button');b.textContent=a;b.style.fontSize='32px';b.style.flex='1 0 20%';b.onclick=function(){var n=$('pn').value.trim();if(!n){$('pm').textContent='Спочатку впиши ім’я.';return}pet={a:a,n:n,f:80,h:80,e:80,c:80,t:Date.now()};pS();pR('Привіт! Я '+n+'!')};$('pa').appendChild(b)});return}
+pTick();var low=pet.f<30?'Я голодний(а) 🍎':pet.c<30?'Хочу митися 🛁':pet.e<30?'Хочу спати 😴':pet.h<30?'Пограй зі мною 🎾':'Мені добре! 💛',sad=Math.min(pet.f,pet.h,pet.e,pet.c)<30;
+r.innerHTML="<div class='pet'>"+pet.a+"</div><div class='msg' style='font-size:20px;font-weight:700' id='pm'></div><div class='box'><b id='pnm'></b><div class='sub'>Ситість</div><div class='bar'><i id='b1p'></i></div><div class='sub'>Радість</div><div class='bar'><i id='b2p'></i></div><div class='sub'>Енергія</div><div class='bar'><i id='b3p'></i></div><div class='sub'>Чистота</div><div class='bar'><i id='b4p'></i></div></div><div class='sel'><button id='pf'>🍎 Годувати</button><button id='pp'>🎾 Гратися</button></div><div class='sel'><button id='ps'>😴 Спати</button><button id='pw'>🛁 Мити</button></div><button class='btn alt' id='pch'>Обрати іншого друга</button>";
+$('pnm').textContent=pet.n+(sad?' 😢':' 😊');$('pm').textContent=msg||low;
+[['b1p','f'],['b2p','h'],['b3p','e'],['b4p','c']].forEach(function(x){var e=$(x[0]);e.style.width=pet[x[1]]+'%';e.style.background=pet[x[1]]<30?'#e03131':''});
+$('pf').onclick=function(){pAct('f',28,'Ням-ням! 😋')};$('pp').onclick=function(){pAct('h',28,'Ура, граємо! 🎉','e',-8)};$('ps').onclick=function(){pAct('e',35,'Хр-р-р… 😴')};$('pw').onclick=function(){pAct('c',35,'Тепер я чистий(а)! ✨')};
+$('pch').onclick=function(){if(confirm('Обрати іншого друга? Поточний зникне.')){pet=null;pS();pR()}}}
+setInterval(function(){if(pet&&!$('pet2').classList.contains('hide'))pR()},60000);
+pR();
 /* hub */
-var GI=['tttBox','memBox','alias','su','cz','who'],GM=[['tttBox','❌⭕','Хрестики-нулики'],['memBox','🧠','Пам’ять'],['alias','⏱️','Аліас'],['su','🔢','Судоку'],['cz','🔐','Шифр'],['who','🎭','Хто я?']];
-function gHome(){GI.forEach(function(i){$(i).classList.add('hide')});$('hub').classList.remove('hide');$('gbar').classList.add('hide');aPause()}
+var GI=['tttBox','memBox','alias','su','cz','who','bat','tet','pet2'],GM=[['tttBox','❌⭕','Хрестики-нулики'],['memBox','🧠','Пам’ять'],['alias','⏱️','Аліас'],['su','🔢','Судоку'],['cz','🔐','Шифр'],['who','🎭','Хто я?'],['bat','🚢','Морський бій'],['tet','🧱','Тетріс',tzNew],['pet2','🐾','Тамагочі',pR]];
+function gHome(){GI.forEach(function(i){$(i).classList.add('hide')});$('hub').classList.remove('hide');$('gbar').classList.add('hide');aPause();tzPause()}
 function gOpen(i){$('hub').classList.add('hide');$(i).classList.remove('hide');$('gbar').classList.remove('hide')}
-['alias','su','cz','who'].forEach(function(i){$('games').appendChild($(i))});
-GM.forEach(function(g){var b=document.createElement('button');b.className='tile';b.innerHTML='<b>'+g[1]+'</b><span>'+g[2]+'</span>';b.onclick=function(){gOpen(g[0])};$('hub').appendChild(b)});
+['alias','su','cz','who','bat','tet','pet2'].forEach(function(i){$('games').appendChild($(i))});
+GM.forEach(function(g){var b=document.createElement('button');b.className='tile';b.innerHTML='<b>'+g[1]+'</b><span>'+g[2]+'</span>';b.onclick=function(){gOpen(g[0]);if(g[3])g[3]()};$('hub').appendChild(b)});
 $('gback').onclick=gHome;
 
 if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+
+/* sos */
+var EM=[['🆘','Єдиний номер екстрених служб','112','112'],['🚒','Пожежна й рятувальна служба','101','101'],['👮','Поліція','102','102'],['🚑','Швидка допомога','103','103'],['🔥','Аварійна служба газу','104','104'],['🧒','Дитяча лінія допомоги','116 111','116111'],['🛡️','Допомога при домашньому насильстві','116 123','116123'],['🔎','Розшук зниклих дітей','116 000','116000']],CT=['Вінниця','Дніпро','Житомир','Запоріжжя','Івано-Франківськ','Київ','Кропивницький','Луцьк','Львів','Миколаїв','Одеса','Полтава','Рівне','Суми','Тернопіль','Ужгород','Харків','Херсон','Хмельницький','Черкаси','Чернівці','Чернігів'];
+addTab('sos','Допомога',`<div class='box'><b>Екстрені номери</b><p class='sub'>Телефонуй лише тоді, коли справді небезпечно або потрібна допомога. Номери однакові по всій Україні. Торкнись рядка, щоб подзвонити.</p><div id='el'></div></div><div class='box'><b>Де я</b><div class='sub'>Місто, селище або село:</div><input id='ec' list='cities' placeholder='Почни вводити назву'><datalist id='cities'></datalist><div class='sub'>Моя адреса (вулиця, будинок, під’їзд, поверх):</div><input id='ea' placeholder='Наприклад: вул. Шевченка, 5, під’їзд 2'><div class='sub' id='es'></div></div><div class='box'><b>Мої контакти</b><p class='sub'>Додай номери рідних, які ти знаєш. Вони зберігаються лише на цьому телефоні.</p><div id='ek'></div><input id='en' placeholder='Ім’я: мама, тато, бабуся…'><input id='ep' type='tel' placeholder='Номер телефону'><button class='btn' id='ead'>Додати</button></div>`);
+EM.forEach(function(e){var a=document.createElement('a');a.className='sos';a.href='tel:'+e[3];a.innerHTML='<span class="ic">'+e[0]+'</span><span>'+e[1]+'</span><span class="num">'+e[2]+'</span>';$('el').appendChild(a)});
+CT.forEach(function(c){var o=document.createElement('option');o.value=c;$('cities').appendChild(o)});
+$('ec').value=ld('kitCity')||'';$('ea').value=ld('kitAddr')||'';
+function eS(){var c=$('ec').value.trim(),a=$('ea').value.trim();$('es').textContent='Що сказати диспетчеру: 1) назви своє ім’я та вік; 2) коротко поясни, що сталося; 3) скажи, де ти: '+(c||'місто')+(a?', '+a:', адреса')+'; 4) не клади слухавку, поки не скажуть.'}
+$('ec').oninput=function(){sv('kitCity',this.value);eS()};$('ea').oninput=function(){sv('kitAddr',this.value);eS()};eS();
+function kL(){try{return JSON.parse(ld('kitContacts')||'[]')}catch(e){return []}}
+function kR(){var l=$('ek');l.innerHTML='';kL().forEach(function(c,i){var r=document.createElement('div');r.className='exr';var a=document.createElement('a');a.className='sos';a.style.flex='1';a.style.margin='0';a.href='tel:'+c[1].replace(/[^\d+]/g,'');var n=document.createElement('span');n.textContent='📞 '+c[0];var m=document.createElement('span');m.className='num';m.textContent=c[1];a.appendChild(n);a.appendChild(m);var d=document.createElement('button');d.textContent='✕';d.setAttribute('aria-label','Видалити');d.onclick=function(){var x=kL();x.splice(i,1);sv('kitContacts',JSON.stringify(x));kR()};r.appendChild(a);r.appendChild(d);l.appendChild(r)})}
+$('ead').onclick=function(){var n=$('en').value.trim(),q=$('ep').value.trim();if(!n||!q)return;var x=kL();x.push([n,q]);sv('kitContacts',JSON.stringify(x));$('en').value='';$('ep').value='';kR()};kR();
+
+$('sosb').onclick=function(){var s=$('sos');if(!s.classList.contains('hide')){document.querySelector('nav button[data-t="games"]').click();return}tabs.forEach(function(t){$(t).classList.toggle('hide',t!=='sos')});[].forEach.call(document.querySelectorAll('nav button'),function(x){x.setAttribute('aria-pressed','false')});stopB();aPause();tzPause();$('sosb').setAttribute('aria-pressed','true')};
+
 </script>
 </body>
 </html>
