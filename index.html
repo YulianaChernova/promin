@@ -89,11 +89,21 @@ nav button[aria-pressed="true"]{background:var(--pb);color:var(--pbt);border-col
 .bar{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:2px 0 10px}.bar i{display:block;height:100%;background:var(--ok);transition:width .4s}
 #paw{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:9;font-weight:800;font-size:26px;color:#fff;text-shadow:0 2px 8px #000}
 #paw svg{animation:paw .95s ease-out both}@keyframes paw{0%{transform:translateX(120px) rotate(30deg) scale(.4);opacity:0}40%{transform:translateX(0) rotate(-12deg) scale(1.1);opacity:1}65%{transform:rotate(10deg);opacity:1}100%{transform:rotate(-6deg);opacity:0}}
+.stg{position:relative;text-align:center}
+.pet.a-eat{animation:chomp .3s 4}@keyframes chomp{50%{transform:scale(1.15,.85)}}
+.pet.a-play{animation:jump .45s 3}@keyframes jump{50%{transform:translateY(-34px) rotate(10deg)}}
+.pet.a-wash{animation:wig .22s 7}@keyframes wig{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.pet.a-sleep{animation:none;opacity:.6}
+.pet.sad{animation:sadb 3s ease-in-out infinite}@keyframes sadb{50%{transform:translateY(6px) scale(.97)}}
+.fxs{position:absolute;inset:0;pointer-events:none;overflow:hidden}.fxs span{position:absolute;bottom:30%;font-size:34px;animation:rise 1.4s ease-out both}@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translateY(-120px) scale(1.1);opacity:0}}
+.bub{position:absolute;top:0;left:50%;transform:translateX(34px);background:#fff;border:2px solid var(--line);border-radius:16px;padding:4px 10px;font-size:26px;animation:pop2 .4s;z-index:1}
+.poo{font-size:40px;border:none;background:none;padding:4px;animation:pop2 .4s}@keyframes pop2{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+#fbb[aria-pressed="true"]{background:var(--pb);color:var(--pbt)}
 </style>
 </head>
 <body>
 <main>
-<div class="hd"><div class="top"><h1><img src="icon-192.png" width="38" height="38" alt="" style="border-radius:10px;vertical-align:middle;margin-right:10px">Промінь</h1><div style="display:flex;gap:8px"><button id="sosb" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Допомога" aria-pressed="false">🆘</button><button id="th" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Змінити тему">◐</button></div></div>
+<div class="hd"><div class="top"><h1><img src="icon-192.png" width="38" height="38" alt="" style="border-radius:10px;vertical-align:middle;margin-right:10px">Промінь</h1><div style="display:flex;gap:8px"><button id="fbb" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Написати автору" aria-pressed="false">✉️</button><button id="sosb" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Допомога" aria-pressed="false">🆘</button><button id="th" class="btn alt" style="width:auto;margin:0;padding:6px 12px" aria-label="Змінити тему">◐</button></div></div>
 <p class="sub">Працює без інтернету після встановлення на головний екран.</p>
 <nav>
 <button data-t="games" aria-pressed="true">Ігри</button>
@@ -156,11 +166,11 @@ var dark=cur?cur==="dark":!window.matchMedia("(prefers-color-scheme:light)").mat
 var n=dark?"light":"dark";document.documentElement.setAttribute("data-theme",n);sv("kitTheme",n)};
 
 /* tabs */
-var tabs=["games","sos","riddles","calm","quest","tf","md","story"];
+var tabs=["games","sos","fb","riddles","calm","quest","tf","md","story"];
 document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
 tabs.forEach(function(t){$(t).classList.toggle("hide",t!==b.dataset.t)});
 document.querySelectorAll("nav button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
-stopB();aPause();gHome();$('sosb').setAttribute('aria-pressed','false')}});
+stopB();aPause();gHome();$('sosb').setAttribute('aria-pressed','false');$('fbb').setAttribute('aria-pressed','false')}});
 
 /* tic-tac-toe */
 var bd,turn,over;
@@ -306,22 +316,38 @@ function hold(id,fn){var b=$(id),iv=null;b.onpointerdown=function(e){e.preventDe
 hold('tkl',function(){tzMv(-1)});hold('tkr',function(){tzMv(1)});hold('tkd',tzDn);$('tkro').onclick=tzRot;$('tkdr').onclick=tzDrop;$('tkn').onclick=tzNew;
 document.addEventListener('keydown',function(e){if($('tet').classList.contains('hide'))return;var k=e.key;if(k==='ArrowLeft')tzMv(-1);else if(k==='ArrowRight')tzMv(1);else if(k==='ArrowDown')tzDn();else if(k==='ArrowUp')tzRot();else if(k===' ')tzDrop();else return;e.preventDefault()});
 /* tamagotchi */
-var PA=['🐱','🐶','🐰','🐼','🦊','🐹','🐸','🦄'],pet=null;
+var PA=['🐱','🐶','🐰','🐼','🦊','🐹','🐸','🦄'],FD=['🍎','🥕','🍪','🍖'],pet=null,pBusy=false,pLastP=0;
 addTab('pet2','Тамагочі',`<div id='ptg'></div>`);
+function PI(){return(20+Math.random()*20)*60000}
 try{pet=JSON.parse(ld('kitPet')||'null')}catch(e){pet=null}
+if(pet&&pet.p===undefined){pet.p=0;pet.pt=Date.now()+PI()}
 function pS(){sv('kitPet',JSON.stringify(pet))}
-function pTick(){if(!pet)return;var m=Math.min(240,(Date.now()-pet.t)/60000);pet.t=Date.now();pet.f=Math.max(10,pet.f-m*1.2);pet.h=Math.max(10,pet.h-m*.8);pet.e=Math.max(10,pet.e-m*.5);pet.c=Math.max(10,pet.c-m*.6);pS()}
-function pAct(k,d,msg,k2,d2){pTick();pet[k]=Math.min(100,pet[k]+d);if(k2)pet[k2]=Math.max(10,Math.min(100,pet[k2]+d2));pS();pR(msg)}
-function pR(msg){var r=$('ptg');r.innerHTML='';
-if(!pet){r.innerHTML="<div class='box'><b>Обери друга</b><br>Це твій улюбленець. За ним треба доглядати: годувати, гратися, купати й укладати спати. Він не зникне, навіть якщо ти довго не заходитимеш.</div><div class='sel' id='pa' style='flex-wrap:wrap'></div><input id='pn' placeholder='Як його звати?'><div class='msg' id='pm'></div>";
-PA.forEach(function(a){var b=document.createElement('button');b.textContent=a;b.style.fontSize='32px';b.style.flex='1 0 20%';b.onclick=function(){var n=$('pn').value.trim();if(!n){$('pm').textContent='Спочатку впиши ім’я.';return}pet={a:a,n:n,f:80,h:80,e:80,c:80,t:Date.now()};pS();pR('Привіт! Я '+n+'!')};$('pa').appendChild(b)});return}
-pTick();var low=pet.f<30?'Я голодний(а) 🍎':pet.c<30?'Хочу митися 🛁':pet.e<30?'Хочу спати 😴':pet.h<30?'Пограй зі мною 🎾':'Мені добре! 💛',sad=Math.min(pet.f,pet.h,pet.e,pet.c)<30;
-r.innerHTML="<div class='pet'>"+pet.a+"</div><div class='msg' style='font-size:20px;font-weight:700' id='pm'></div><div class='box'><b id='pnm'></b><div class='sub'>Ситість</div><div class='bar'><i id='b1p'></i></div><div class='sub'>Радість</div><div class='bar'><i id='b2p'></i></div><div class='sub'>Енергія</div><div class='bar'><i id='b3p'></i></div><div class='sub'>Чистота</div><div class='bar'><i id='b4p'></i></div></div><div class='sel'><button id='pf'>🍎 Годувати</button><button id='pp'>🎾 Гратися</button></div><div class='sel'><button id='ps'>😴 Спати</button><button id='pw'>🛁 Мити</button></div><button class='btn alt' id='pch'>Обрати іншого друга</button>";
-$('pnm').textContent=pet.n+(sad?' 😢':' 😊');$('pm').textContent=msg||low;
+function pTick(){if(!pet)return;var now=Date.now(),m=Math.min(240,(now-pet.t)/60000);pet.t=now;pet.f=Math.max(10,pet.f-m*1.2);pet.h=Math.max(10,pet.h-m*.8);pet.e=Math.max(10,pet.e-m*.5);pet.c=Math.max(10,pet.c-m*(.6+pet.p*.4));while(now>=pet.pt&&pet.p<3){pet.p++;pet.pt+=PI()}if(pet.p>=3&&now>=pet.pt)pet.pt=now+PI();pS()}
+function psfx(k){if($('psnd')&&!$('psnd').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();var t=AC.currentTime,S={eat:[[520,0,.09],[420,.12,.09],[520,.26,.09],[420,.38,.09]],play:[[523,0,.12],[659,.12,.12],[784,.24,.12],[1047,.36,.2]],sleep:[[440,0,.35],[392,.4,.35],[330,.8,.5]],wash:[[900,0,.06],[1200,.08,.06],[1000,.16,.06],[1400,.24,.06],[1100,.32,.08]],clean:[[300,0,.05],[600,.05,.05],[900,.1,.08]],poop:[[180,0,.12],[140,.14,.18]]}[k];S.forEach(function(n){var o=AC.createOscillator(),g=AC.createGain();o.type=k==='poop'?'sawtooth':'sine';o.frequency.value=n[0];g.gain.setValueAtTime(.0001,t+n[1]);g.gain.linearRampToValueAtTime(.1,t+n[1]+.02);g.gain.linearRampToValueAtTime(.0001,t+n[1]+n[2]);o.connect(g);g.connect(AC.destination);o.start(t+n[1]);o.stop(t+n[1]+n[2]+.02)})}catch(e){}}
+function pNeed(){var c=[[pet.f,'🍎','Я голодний(а)'],[pet.h,'🎾','Хочу гратися'],[pet.e,'😴','Хочу спати'],[pet.c,'🛁','Хочу митися']];if(pet.p)c.push([40-pet.p*10,'💩','Прибери за мною, будь ласка']);c.sort(function(a,b){return a[0]-b[0]});return c[0]}
+function pFx(a){var f=$('pfx');a.forEach(function(e,i){var s=document.createElement('span');s.textContent=e;s.style.left=(25+Math.random()*50)+'%';s.style.animationDelay=(i*.15)+'s';f.appendChild(s);setTimeout(function(){s.remove()},1900)})}
+function pAnim(cls,ms){var e=$('pem');e.classList.add(cls);pBusy=true;setTimeout(function(){e.classList.remove(cls);pBusy=false;pRef()},ms)}
+function pRef(msg){if(!pet||!$('pem'))return;var prev=pLastP;pTick();var n=pNeed(),v=n[0],ok=v>=60;
+$('pnm').textContent=pet.n+' '+(v<30?'😢':v<55?'😐':'😊');$('pbub').style.display=ok?'none':'block';$('pbub').textContent=n[1];$('pem').classList.toggle('sad',v<30&&!pBusy);
+$('pm').textContent=msg||(ok?'Мені добре! 💛':n[2]);
 [['b1p','f'],['b2p','h'],['b3p','e'],['b4p','c']].forEach(function(x){var e=$(x[0]);e.style.width=pet[x[1]]+'%';e.style.background=pet[x[1]]<30?'#e03131':''});
-$('pf').onclick=function(){pAct('f',28,'Ням-ням! 😋')};$('pp').onclick=function(){pAct('h',28,'Ура, граємо! 🎉','e',-8)};$('ps').onclick=function(){pAct('e',35,'Хр-р-р… 😴')};$('pw').onclick=function(){pAct('c',35,'Тепер я чистий(а)! ✨')};
-$('pch').onclick=function(){if(confirm('Обрати іншого друга? Поточний зникне.')){pet=null;pS();pR()}}}
-setInterval(function(){if(pet&&!$('pet2').classList.contains('hide'))pR()},60000);
+var po=$('ppo');if(po.children.length!==pet.p){po.innerHTML='';for(var i=0;i<pet.p;i++){var b=document.createElement('button');b.className='poo';b.textContent='💩';b.setAttribute('aria-label','Прибрати');b.onclick=pClean;po.appendChild(b)}if(pet.p>prev&&!msg)psfx('poop')}
+pLastP=pet.p}
+function pClean(){pTick();if(pet.p>0){pet.p--;pet.c=Math.min(100,pet.c+8);pS();psfx('clean');pFx(['✨']);pRef('Чисто! ✨')}}
+function pDo(k){if(pBusy)return;pTick();
+if(k==='f'){if(pet.f>=95){pRef('Я вже наївся(лась) 😅');return}pet.f=Math.min(100,pet.f+28);pet.pt=Math.min(pet.pt,Date.now()+(2+Math.random()*3)*60000);pFx([FD[Math.floor(Math.random()*4)],'😋']);psfx('eat');pAnim('a-eat',1300);pS();pRef('Ням-ням! 😋')}
+else if(k==='h'){if(pet.e<=15){pRef('Я надто втомився(лась) 😴');return}pet.h=Math.min(100,pet.h+28);pet.e=Math.max(10,pet.e-8);pFx(['🎾','🎉','⭐']);psfx('play');pAnim('a-play',1400);pS();pRef('Ура, граємо! 🎉')}
+else if(k==='e'){if(pet.e>=95){pRef('Я не хочу спати 😊');return}pet.e=Math.min(100,pet.e+35);pFx(['💤','💤','💤']);psfx('sleep');pAnim('a-sleep',3000);pS();pRef('Хр-р-р… 😴')}
+else{pet.c=Math.min(100,pet.c+35);pFx(['🫧','🫧','🫧','🫧']);psfx('wash');pAnim('a-wash',1600);pS();pRef('Тепер я чистий(а)! ✨')}}
+function pBuild(){var r=$('ptg');pLastP=pet.p;pBusy=false;
+r.innerHTML="<div class='stg'><div class='bub' id='pbub'></div><div class='pet' id='pem'></div><div class='fxs' id='pfx'></div></div><div id='ppo' style='text-align:center;min-height:52px'></div><div class='msg' style='font-size:20px;font-weight:700' id='pm'></div><div class='box'><b id='pnm'></b><div class='sub'>Ситість</div><div class='bar'><i id='b1p'></i></div><div class='sub'>Радість</div><div class='bar'><i id='b2p'></i></div><div class='sub'>Енергія</div><div class='bar'><i id='b3p'></i></div><div class='sub'>Чистота</div><div class='bar'><i id='b4p'></i></div></div><div class='sel'><button id='pf'>🍎 Годувати</button><button id='pp'>🎾 Гратися</button></div><div class='sel'><button id='ps'>😴 Спати</button><button id='pw'>🛁 Мити</button></div><label style='display:flex;align-items:center;gap:10px;margin:6px 0'><input type='checkbox' id='psnd' checked> Звуки</label><button class='btn alt' id='pch'>Обрати іншого друга</button>";
+$('pem').textContent=pet.a;$('pf').onclick=function(){pDo('f')};$('pp').onclick=function(){pDo('h')};$('ps').onclick=function(){pDo('e')};$('pw').onclick=function(){pDo('c')};
+$('pch').onclick=function(){if(confirm('Обрати іншого друга? Поточний зникне.')){pet=null;pS();pR()}};pRef()}
+function pR(){var r=$('ptg');if(pet){pTick();pBuild();return}
+r.innerHTML="<div class='box'><b>Обери друга</b><br>Це твій улюбленець. За ним треба доглядати: годувати, гратися, купати, укладати спати й прибирати за ним. Він не зникне, навіть якщо ти довго не заходитимеш, і буде чекати на тебе.</div><div class='sel' id='pa' style='flex-wrap:wrap'></div><input id='pn' placeholder='Як його звати?' maxlength='20'><div class='msg' id='pm'></div>";
+PA.forEach(function(a){var b=document.createElement('button');b.textContent=a;b.style.fontSize='32px';b.style.flex='1 0 20%';b.onclick=function(){var n=$('pn').value.trim();if(!n){$('pm').textContent='Спочатку впиши ім’я.';return}pet={a:a,n:n,f:80,h:80,e:80,c:80,t:Date.now(),p:0,pt:Date.now()+PI()};pS();pBuild()};$('pa').appendChild(b)})}
+setInterval(function(){if(pet&&$('pem')&&!document.hidden&&!$('pet2').classList.contains('hide'))pRef()},10000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&pet&&$('pem'))pRef()});
 pR();
 /* hub */
 var GI=['tttBox','memBox','alias','su','cz','who','bat','tet','pet2'],GM=[['tttBox','❌⭕','Хрестики-нулики'],['memBox','🧠','Пам’ять'],['alias','⏱️','Аліас'],['su','🔢','Судоку'],['cz','🔐','Шифр'],['who','🎭','Хто я?'],['bat','🚢','Морський бій'],['tet','🧱','Тетріс',tzNew],['pet2','🐾','Тамагочі',pR]];
@@ -345,7 +371,24 @@ function kL(){try{return JSON.parse(ld('kitContacts')||'[]')}catch(e){return []}
 function kR(){var l=$('ek');l.innerHTML='';kL().forEach(function(c,i){var r=document.createElement('div');r.className='exr';var a=document.createElement('a');a.className='sos';a.style.flex='1';a.style.margin='0';a.href='tel:'+c[1].replace(/[^\d+]/g,'');var n=document.createElement('span');n.textContent='📞 '+c[0];var m=document.createElement('span');m.className='num';m.textContent=c[1];a.appendChild(n);a.appendChild(m);var d=document.createElement('button');d.textContent='✕';d.setAttribute('aria-label','Видалити');d.onclick=function(){var x=kL();x.splice(i,1);sv('kitContacts',JSON.stringify(x));kR()};r.appendChild(a);r.appendChild(d);l.appendChild(r)})}
 $('ead').onclick=function(){var n=$('en').value.trim(),q=$('ep').value.trim();if(!n||!q)return;var x=kL();x.push([n,q]);sv('kitContacts',JSON.stringify(x));$('en').value='';$('ep').value='';kR()};kR();
 
-$('sosb').onclick=function(){var s=$('sos');if(!s.classList.contains('hide')){document.querySelector('nav button[data-t="games"]').click();return}tabs.forEach(function(t){$(t).classList.toggle('hide',t!=='sos')});[].forEach.call(document.querySelectorAll('nav button'),function(x){x.setAttribute('aria-pressed','false')});stopB();aPause();tzPause();$('sosb').setAttribute('aria-pressed','true')};
+function aux(id,btn){var s=$(id);if(!s.classList.contains('hide')){document.querySelector('nav button[data-t="games"]').click();return}tabs.forEach(function(t){$(t).classList.toggle('hide',t!==id)});[].forEach.call(document.querySelectorAll('nav button'),function(x){x.setAttribute('aria-pressed','false')});stopB();aPause();tzPause();['sosb','fbb'].forEach(function(x){$(x).setAttribute('aria-pressed',x===btn)})}
+$('sosb').onclick=function(){aux('sos','sosb')};$('fbb').onclick=function(){aux('fb','fbb');fbFlush()};
+
+/* feedback */
+var FB_KEY='',FB_URL='https://api.web3forms.com/submit',APP_V='promin-v5',fbType='Відгук';
+addTab('fb','Відгук',`<div class='box'><b>Напиши авторці застосунку</b><p>Привіт! Я створила цей застосунок для дітей і буду вдячна за будь-які відгуки: що сподобалося, чого бракує, які ігри додати. Якщо щось не працює чи виглядає дивно, опиши, що сталося й на якому телефоні, і я постараюся це виправити. Дякую, що допомагаєш зробити «Промінь» кращим! 💛</p></div><div class='box'><div class='sub'>Про що ти пишеш?</div><div class='sel' id='fbt'><button data-t='Відгук' aria-pressed='true'>Відгук</button><button data-t='Ідея' aria-pressed='false'>Ідея</button><button data-t='Помилка' aria-pressed='false'>Помилка</button></div><textarea id='fbm' rows='5' maxlength='1000' placeholder='Напиши тут…'></textarea><input id='fbn' maxlength='60' placeholder='Як тебе звати? (необов’язково)'><input id='fbe' type='email' maxlength='80' placeholder='Пошта для відповіді (необов’язково)'><label style='display:flex;align-items:center;gap:10px;margin:6px 0'><input type='checkbox' id='fbd'> Додати інформацію про телефон і браузер (допоможе виправити помилку)</label><input id='fbh' tabindex='-1' autocomplete='off' aria-hidden='true' style='position:absolute;left:-9999px'><div class='sub'>Не пиши тут адресу, номер телефону й інші особисті дані. Дітям краще написати разом із дорослими.</div><button class='btn' id='fbs'>Надіслати</button><div class='msg' id='fbr'></div></div>`);
+pick('fbt',function(b){fbType=b.dataset.t});
+function fbQ(){try{return JSON.parse(ld('kitFbQ')||'[]')}catch(e){return[]}}
+function fbSend(o){return fetch(FB_URL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(o)}).then(function(r){return r.json()}).then(function(j){if(!j.success)throw 0;return true})}
+function fbFlush(){var q=fbQ();if(!FB_KEY||!q.length||!navigator.onLine)return;fbSend(q[0]).then(function(){q.shift();sv('kitFbQ',JSON.stringify(q));fbFlush()}).catch(function(){})}
+$('fbs').onclick=function(){var m=$('fbm').value.trim(),r=$('fbr');if($('fbh').value)return;
+if(!m){r.textContent='Спочатку напиши кілька слів.';return}
+if(!FB_KEY){r.textContent='Форма відгуків ще не підключена. Спробуй пізніше.';return}
+if(Date.now()-(+ld('kitFbT')||0)<60000){r.textContent='Зачекай хвилинку перед наступним повідомленням.';return}
+var o={access_key:FB_KEY,subject:'Промінь: '+fbType,from_name:'Промінь (застосунок)',name:$('fbn').value.trim()||'Без імені',message:'['+fbType+'] '+m+'\n\nВерсія: '+APP_V+($('fbd').checked?'\nПристрій: '+navigator.userAgent:''),botcheck:''},em=$('fbe').value.trim();if(em)o.email=em;
+sv('kitFbT',String(Date.now()));r.textContent='Надсилаю…';
+fbSend(o).then(function(){r.textContent='Дякую! Повідомлення надіслано 💛';$('fbm').value='';boom()}).catch(function(){var q=fbQ();q.push(o);sv('kitFbQ',JSON.stringify(q.slice(-5)));r.textContent='Немає зв’язку. Я збережу повідомлення й надішлю його, коли з’явиться інтернет.'})};
+window.addEventListener('online',fbFlush);fbFlush();
 
 </script>
 </body>
